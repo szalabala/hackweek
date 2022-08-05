@@ -1,0 +1,49 @@
+.debug { display:none }
+html, body {
+  height:100%;
+  width:100%;
+  padding:0;
+  margin:0;
+  height: -webkit-fill-available;
+  width: -webkit-fill-available;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+h2 { font-size:5vmin; } 
+.xl { font-size:10vmin; font-weight: bolder; }
+.textshadow1 { color:black; text-shadow:-5px 5px 5px gold, 0 20px 50px white, 5px -5px 9px red; }
+.textshadow2 { color:gold; text-shadow:-5px 5px 5px black, 0 20px 50px white, 5px -5px 9px lightcoral; }
+.big { font-size:5vmin }
+.medium { font-size:4vmin }
+.small { font-size:3vmin }
+.icon { height:13vmin;width:13vmin;max-height:15vh;max-width:15vw; }
+.bigicon { height:20vmin;width:20vmin;max-height:25vh;max-width:25vw; }
+.rotate { transition: transform 2s linear; }  
+p { margin:auto; padding:0;font-size:3vmin; border-radius:25%; }
+body { background-image:url("images/csempe.jpg"); overflow: hidden; }
+table, tr, td { border: none; padding:0; margin:0; text-align: center; }
+img.mozgo { position: absolute; left: 0px; top: 0px; display:inline-block;}
+.modebutton { border: 5px solid teal;  border-radius:35%; padding:1%; margin:1%; text-align: center; color:blue }
+@keyframes blink1{
+  45%{ transform: scale(1,1); }
+  50%{ transform: scale(1.05,1.05); }
+  55%{ transform: scale(1,1); }
+}
+@keyframes blink2{
+  0%{ transform: scale(1,1); }
+  10%{ transform: scale(1.2,1.2); }
+  20%{ transform: scale(1,1); }
+}
+@keyframes closed{
+  10%{ transform: scale(1.05,1.05) translate(0px, -5px) rotate(2deg); }
+  20%{ transform: scale(1,1) translate(5px, 0px) rotate(0); }
+  30%{ transform: scale(1.1,1.1) translate(5px, -5px) rotate(-2deg); }
+  40%{ transform: scale(1,1) translate(5px, 0px) rotate(0); }
+  40%{ transform: scale(1.05,1.05) translate(0px, 5px) rotate(2deg); }
+  60%{ transform: scale(1,1) rotate(0); }
+}

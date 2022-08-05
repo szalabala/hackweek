@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>Hackweek 2022q3</title>
+  <meta name="copyleft" content="&copy; 2022 Balazs Szalai" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="viewport" content="minimal-ui,width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="styles.css">
+  <script type="text/javascript" src="js/hbwega.js"></script>
+  <script type="text/javascript" src="js/hbpairgame.js"></script>
+  <script>
+    gameDesc._name = "Hackweek 2022q3";
+    gameDesc.W = 6;
+    gameDesc.H = 3;
+    gameDesc.image = { 
+        //tabla_w:"flowers/viragback_w.jpg", tabla_h:"flowers/viragback_h.jpg",
+        tabla_w:"", tabla_h:"",
+        doorClosed: '', doorOpen: '', 
+        cardBackImg: "pandas/pandback.jpeg",
+        imgEmpty: "data:,",
+        path: "pandas", prefix: "panda", imgext: "jpeg" };
+    gameDesc.modes = [
+        //    { id:1, match:'-', n1: 2, good: 8, pairs: [3, 19, 7, 9, 13, 15], name:"Bugsy", desc:"" },
+        { id:1, match:'-', n1: 3, good: 18, pairs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd'], name:"q3", desc:"" },
+    ];
+    gameDesc.messages = {
+        intro: "Keresd a párját! Kettesével megnézheted a kártyákat.",
+        showMode: "Keresd a párját!", showMode_en: "Find the pairs!",
+        eval_good: [ "Fantasztikus! Egyszerűen hihetetlen."  ],
+        eval_bad: [ "A te tudatalattid különleges tipikussággal jelentkezik.", "Elnézést a késésért, nem találták a cella kukcsát.", 
+        "Plátói? Mi a fenét jelent az, hogy plátói?" ],
+        eval_end: [ "Ha nem akarjuk megkockáztatni, hogy olyanokká váljunk, mint ezek, zabáljuk el gyorsan ezt a pénzt!",
+        
+        "Most, hogy elmeséltem az életem történetét, menj és sétálj egyet." ]
+    };
+    gameDesc.cookiestore = "hbnonap2021";
+    hbgui.mainAreaHeightPc = 80;
+    hbgui.mainAreaWidthPc = 80;
+    function startOnce0() {
+        const queryString = window.location.search;
+        if (queryString != '') {
+            const urlParams = new URLSearchParams(queryString);
+            gameData.xx = urlParams.get('xx')
+            gameData.en = true; //urlParams.has('en')
+            if (urlParams.has('end')) {
+                setTimeout(playClosing, 2 * hbgui._longMs);
+            }
+            if (gameData.en) {
+                gameDesc.messages.showMode = gameDesc.messages.showMode_en;
+            }
+        }
+    }
+    function startOnce2() {
+        //document.getElementById('tabla').style.display = 'none';
+        document.body.style.backgroundImage = 'url(images/bamboo_tile1.webp)';
+        document.getElementById('tabla').style.filter = 'invert(0)';
+        document.getElementById('b1').style.border = '3px solid yellow';
+        document.getElementById('b1').style.borderRadius = '35%';
+        document.getElementById('b1').style.maxHeight = '10vh';
+        document.getElementById('b1').style.maxWidth = '10vh';
+        hbgui.myBlink(document.getElementById('b1'));
+        
+    }
+    var heartpos18w = [ {x_pc: 30, y_pc: 0 }, {x_pc: 40, y_pc: 0 }, {x_pc: 60, y_pc: 0 }, {x_pc: 70, y_pc: 0 },
+                       {x_pc: 20, y_pc: 10 }, {x_pc: 50, y_pc: 10 }, {x_pc: 80, y_pc: 10 },
+                       {x_pc: 15, y_pc: 25 }, {x_pc: 85, y_pc: 25 },
+                       {x_pc: 15, y_pc: 40 }, {x_pc: 85, y_pc: 40 },
+                       {x_pc: 20, y_pc: 55 }, {x_pc: 80, y_pc: 55 },
+                       {x_pc: 30, y_pc: 70 }, {x_pc: 70, y_pc: 70 },
+                       {x_pc: 40, y_pc: 85 }, {x_pc: 60, y_pc: 85 },
+                       {x_pc: 50, y_pc: 100 } ];
+    var heartpos18h = [ {x_pc: 25, y_pc: 15 }, {x_pc: 40, y_pc: 15 }, {x_pc: 60, y_pc: 15 }, {x_pc: 75, y_pc: 15 },
+                       {x_pc: 10, y_pc: 20 }, {x_pc: 50, y_pc: 23 }, {x_pc: 90, y_pc: 20 },
+                       {x_pc:  1, y_pc: 30 }, {x_pc: 99, y_pc: 30 },
+                       {x_pc:  1, y_pc: 40 }, {x_pc: 99, y_pc: 40 },
+                       {x_pc: 15, y_pc: 50 }, {x_pc: 85, y_pc: 50 },
+                       {x_pc: 30, y_pc: 60 }, {x_pc: 70, y_pc: 60 },
+                       {x_pc: 40, y_pc: 70 }, {x_pc: 60, y_pc: 70 },
+                       {x_pc: 50, y_pc: 80 } ];
+
+    hbgui.getEndingPosPcOf = function (posId) {                // return { x_pc, y_pc } -- 'parking positions'
+        if (gameDesc.W > gameDesc.H) {
+            return { x_pc: heartpos18w[posId].x_pc, // Math.floor( Math.floor(posId / 2) * 100 / (gameData.totalPairs - 1) ),
+                     y_pc: heartpos18w[posId].y_pc, // Math.floor( (posId % 2 == 0) ? 2 : 98),
+                     z: 10,
+                     scale: 0.6,
+                     rotX: 0 };
+        } else {
+            return { x_pc: heartpos18h[posId].x_pc, //Math.floor( (posId % 2 == 0) ? 2 : 98),
+                     y_pc: heartpos18h[posId].y_pc, //Math.floor( Math.floor(posId / 2) * 100 / (gameData.totalPairs - 1) ),
+                     z: 10,
+                     scale: 0.6,
+                     rotX: 0 };
+       }
+    }
+    var names = [ "Zoltán", "Vica", "Kata", "Katalin", "Veronika", "Linda", "Andi", "Ági", "Kriszta", "Joli", 
+                  "Erika", "Zsuzsa", "Tünde", "Móni", "Edina", "Ízisz", "Heni", "Ibolya", "Arielle", "Eszter",
+                  "Melinda", "Nati", "Szilvi", "Hédi", "Anikó", "Lívia", "Nádja", "Margit", "Laura", "Katinka",
+                  "Evelin", "Gabi", "Frida", "Izabella", "Tímea", "Viktória", "Tamara", "Nikolett", "Klára", "Ditte",
+                  "Judit", "Kinga", "Edit", "Adél", "Ildikó", "Ivett", "Viola", "Virág", "Nóri", "Orsi",
+                  "Csilla", "Sára", "Kaisa", "Mónika", "Marianna", "Olivera", "Bea", "Adrienne", "Boróka", "Mária",
+                  "Éva", "Marika"];
+    function getClosingMsg() {
+        var msg = "Happy Hackweek 2022q3!";
+        if (gameData.en) {
+            msg = "Happy<br>Hackweek 2022q3!"
+        }
+        if (gameData.xx) {
+            var i = parseInt(gameData.xx) % 399;
+            if (i < names.length) {
+                msg += `<br>${names[i]}`
+            }
+        }
+        return msg;
+    }
+    //hbgui.getPosPcOfPosId = hbgui.getEndingPosPcOf;
+    gameData.getGameStatusMsg = function() { return "" };
+    </script>
+</head>
+<body onload="startOnce();" onresize="hbgui.myResize();">
+    <div id="toptable" style="position:absolute;width:100%;height:100%;padding:0;">  <!-- 3D perspective:100px; -->
+        <div id="cardscontainer"></div>  <!--  style="position:absolute;width:100%;height:100%;padding:0;" -->
+        <img id="tabla" class="back" src="data:," style="position:absolute;float:left;left:0;padding:0;text-align:center;vertical-align:top;width:90%;height:90%;max-height:90vh;max-width:90vw;border-radius:35%;z-index:-1;object-fit:contain;object-position:center center;">
+        <div style="position:relative;float:right;width:90%;text-align:right;vertical-align:top;">
+            <p id='volume' style="text-align:right"><img id="bvol" src="images/volume2b.png" style="max-height:5vmin;margin:1vmin" onclick="hbgui.toggleAudio()"><img id='fullscr' src="images/fullscr2a.png" style="max-height:5vmin;margin:1vmin" onclick="hbgui.toggleFullScr()">
+                <br><img src="images/about.png" style="max-height:10vmin" onclick="showAbout()"></p>
+            </div>
+            <div id="selectModeDiv" style="position:fixed;float:left;left:15%;top:10%;width:70%;padding:0;text-align:center;">
+                <p id="bigtext" class="xl textshadow2" style="text-align:center;font-stretch:semi-condensed">Hackweek 2022q3</p><br>
+            </div>
+            <div id="aboutDiv" class="medium" style="position:fixed;float:left;left:10%;top:20%;width:80%;padding:0;xtext-align:center;display:none;">
+                <button class="big modebutton" style="position:fixed;left:60%;top:50%;" onclick="closeAbout()">
+                    <img id="btnAbout" src="data:," style="border-radius:25%;max-height:50%;max-width:50%;animation: blink1 2000ms infinite;"></button>
+                    <p id="texta" class="medium" style="padding:0;text-align:left;font-stretch:semi-condensed;line-height:1em">
+                        <h3 class="textshadow2">Hackweek 2022q3</h3>
+                        dev: Balazs Szalai<a href="https://www.buymeacoffee.com/szalabala" target="_blank"><img src="images/bmc-logo-no-background.png" alt="Buy Me A Coffee" style="max-height:1em;vertical-align:bottom;" ></a>, <a rel="license" href="http://www.gnu.org/licenses/gpl-3.0.en.html">GPL v3</a>/<a href="http://www.gnu.hu/gpl.html">hu</a>
+                        <br>images: Instructure avatar collection
+                        <br>Engine: &copy; szalabala<a href="https://www.buymeacoffee.com/szalabala" target="_blank"><img src="images/bmc-logo-no-background.png" alt="Buy Me A Coffee" style="max-height: 1em;vertical-align:bottom;" ></a>, <a rel="license" href="http://www.gnu.org/licenses/gpl-3.0.en.html">GPL v3</a>/<a href="http://www.gnu.hu/gpl.html">hu</a>
+                    </p><p class="small">
+                        <br><a href="terms.html" target="_blank">terms</a>, <a href="cookies.html" target="_blank">cookies</a>
+                    </p>
+                </div>
+                <cite id="status" class="xl textshadow2" style="position:absolute;float:left;top:0%;width:99%;text-align:center;font-size:20vmin;"></cite>
+                <div id='footer' style="position:absolute;float:left;left:0%;bottom:0%;width:100%;padding:0;margin:0;text-align:left;font-stretch:semi-condensed;">
+                    <cite id="credit" class="medium" style="position:absolute;float:right;right:0%;bottom:0%;padding:0;margin:0;text-align:right;"><i>&copy; Copyright 2021 szalabala</i></cite>
+                </div>
+            </div>
+            <!-- if you create your a game using this HBWEGA engine, please keep the referene visible in the about with copyright info as below:
+                Engine: &copy; szalabala <a href="https://www.buymeacoffee.com/szalabala" target="_blank"><img src="images/bmc-logo-no-background.png" alt="Buy Me A Coffee" style="max-height: 1em;vertical-align:bottom;" ></a>, GPL <a href="http://www.gnu.hu/gpl.html">hu</a>/<a href="http://www.gnu.org/licenses/gpl-3.0.en.html">en</a>
+                https://www.buymeacoffee.com/szalabala   images/bmc-logo-no-background.png
+                <button id="restartbutton" class="xl modebutton" style="left:42%;border-color:blue;" onclick="start()"><img src="images/door_key.png" style="max-width:15vw;max-height:15vh"></button>
+            -->
+    </body>
+</html>
+        
