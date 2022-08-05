@@ -18,7 +18,7 @@
         //tabla_w:"flowers/viragback_w.jpg", tabla_h:"flowers/viragback_h.jpg",
         tabla_w:"", tabla_h:"",
         doorClosed: '', doorOpen: '', 
-        cardBackImg: "pandas/pandback.jpeg",
+        cardBackImg: "pandas/pandback2.jpeg",
         imgEmpty: "data:,",
         path: "pandas", prefix: "panda", imgext: "jpeg" };
     gameDesc.modes = [
@@ -95,24 +95,8 @@
                      rotX: 0 };
        }
     }
-    var names = [ "Zoltán", "Vica", "Kata", "Katalin", "Veronika", "Linda", "Andi", "Ági", "Kriszta", "Joli", 
-                  "Erika", "Zsuzsa", "Tünde", "Móni", "Edina", "Ízisz", "Heni", "Ibolya", "Arielle", "Eszter",
-                  "Melinda", "Nati", "Szilvi", "Hédi", "Anikó", "Lívia", "Nádja", "Margit", "Laura", "Katinka",
-                  "Evelin", "Gabi", "Frida", "Izabella", "Tímea", "Viktória", "Tamara", "Nikolett", "Klára", "Ditte",
-                  "Judit", "Kinga", "Edit", "Adél", "Ildikó", "Ivett", "Viola", "Virág", "Nóri", "Orsi",
-                  "Csilla", "Sára", "Kaisa", "Mónika", "Marianna", "Olivera", "Bea", "Adrienne", "Boróka", "Mária",
-                  "Éva", "Marika"];
     function getClosingMsg() {
-        var msg = "Happy Hackweek 2022q3!";
-        if (gameData.en) {
-            msg = "Happy<br>Hackweek 2022q3!"
-        }
-        if (gameData.xx) {
-            var i = parseInt(gameData.xx) % 399;
-            if (i < names.length) {
-                msg += `<br>${names[i]}`
-            }
-        }
+        var msg = "Happy<br>Hackweek 2022q3!";
         return msg;
     }
     //hbgui.getPosPcOfPosId = hbgui.getEndingPosPcOf;
